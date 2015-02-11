@@ -5,7 +5,7 @@
 		<meta name="author" content="Ricardo Catalinas Jiménez" /> 
 		<meta name="description" content="Wi! wiki" />
 		<title>Wi!</title>
-		<link rel="stylesheet" type="text/css" href="/wiki/wi.css" />
+		<link rel="stylesheet" type="text/css" href="wi.css" />
 	</head>
 
 	<body>

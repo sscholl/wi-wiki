@@ -69,13 +69,14 @@ function show_static_pages_list
 {
 	typeset file
 	typeset page
-	echo '[&mdash; Index &mdash;]('$WIKI_PATH'/Index.html)'
-	for file in *.markdown
+	echo '[&mdash; Index &mdash;](./Index.html)'
+	for file in .$WIKI_PATH/*.markdown
 	do
 		page=${file%%.markdown}
+		page=${page##*/}
 		if [[ $page != Index ]] && [[ $page != New ]]
 		then
-			echo '['$page']('$WIKI_PATH'/'$page.html')'
+			echo '['$page']('$page.html')'
 		fi
 	done
 }
@@ -118,7 +119,7 @@ function show_static_page_content
 {
 	print_rule
 	echo '#' $1
-	cat $1.markdown
+	cat .$WIKI_PATH/$1.markdown
 	print_rule
 }
 
@@ -313,17 +314,18 @@ function generate_static
 	typeset page
 	typeset file_markdown
 	typeset file_html
-	for file_markdown in *.markdown
+	for file_markdown in .$WIKI_PATH/*.markdown
 	do
 		page=${file_markdown%%.markdown}
+		page=${page##*/}
 		file_html=$page.html
-		cat HEADER >$file_html
-		show_static_pages_list | $MARKDOWN_BIN >>$file_html
-		show_static_page_content $page | $MARKDOWN_BIN >>$file_html
-		cat FOOTER >>$file_html
-		echo $file_html generated
+		cat .$WIKI_PATH/HEADER >.$WIKI_PATH/$file_html
+		show_static_pages_list | $MARKDOWN_BIN >>.$WIKI_PATH/$file_html
+		show_static_page_content $page | $MARKDOWN_BIN >>.$WIKI_PATH/$file_html
+		cat .$WIKI_PATH/FOOTER >>.$WIKI_PATH/$file_html
+		echo .$WIKI_PATH/$file_html generated
 	done
-	ln -sf Index.html index.html
+	ln -sf .$WIKI_PATH/Index.html .$WIKI_PATH/index.html
 }
 
 if [[ $# == 0 ]]
